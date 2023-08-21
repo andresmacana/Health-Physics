@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles.css";
-import { MathJaxContext } from "react-mathjax";
+//import { MathJaxContext } from "react-mathjax";
+import katex from "katex";
 
 const GammaShieldingCalculator = () => {
   const [exposureRate, setExposureRate] = useState("");
@@ -16,6 +17,12 @@ const GammaShieldingCalculator = () => {
       (parseFloat(muOverRho) * parseFloat(density));
     setShieldingThickness(x);
   };
+
+  useEffect(() => {
+    const equationElement = document.getElementById("equation");
+    const latexEquation = String.raw`X = -\frac{\ln\left(\frac{I}{I_0}\right)}{\left(\frac{\mu}{\rho}\right) \cdot \rho}`;
+    katex.render(latexEquation, equationElement);
+  }, []);
 
   return (
     <div className="container">
@@ -84,13 +91,7 @@ const GammaShieldingCalculator = () => {
             centimeters
           </p>
         )}
-        <MathJaxContext version={3}>
-          <p>
-            Equation: {" "}
-            \( X = -\frac{\ln\left(\frac{I}{I_0}\right)}{\left(\frac{\mu}{\rho}\right) \cdot \rho} \)
-          </p>
-        </MathJaxContext>
-        <p>Equation: X = (-ln(I/I0)) / (μ/ρ)*ρ</p>
+        <p id="equation"></p>
       </div>
     </div>
   );
