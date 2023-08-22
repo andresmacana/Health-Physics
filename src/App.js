@@ -1,110 +1,57 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles.css";
-//import { MathJaxContext } from "react-mathjax";
-import katex from "katex";
-import "katex/dist/katex.min.css"; // Import Katex CSS
+import GammaShieldingCalculator from "./GammaShieldingCalculator";
 
-const GammaShieldingCalculator = () => {
-  const [exposureRate, setExposureRate] = useState("");
-  const [initialExposure, setInitialExposure] = useState("");
-  const [muOverRho, setMuOverRho] = useState("0.11");
-  const [density, setDensity] = useState("11.3");
-  const [shieldingThickness, setShieldingThickness] = useState("");
-
-  const calculateThickness = () => {
-    const x =
-      -Math.log(exposureRate / initialExposure) /
-      (parseFloat(muOverRho) * parseFloat(density));
-    setShieldingThickness(x);
-  };
-
-  useEffect(() => {
-    const equationElement = document.getElementById("equation");
-    const latexEquation = String.raw`X = -\frac{\ln\left(\frac{I}{I_o}\right)}{\left(\frac{\mu}{\rho}\right) \cdot \rho}`;
-    try {
-      katex.render(latexEquation, equationElement, {
-        throwOnError: false,
-        displayMode: true, // Render in display mode (centered)
-      });
-    } catch (error) {
-      console.error("Error rendering Katex:", error);
-    }
-  }, [exposureRate, initialExposure, muOverRho, density]);
-
+function App() {
   return (
-    <div className="container">
-      <div className="col-md-6">
-        <h2>Gamma Ray Shielding Calculator</h2>
-        <form>
-          <div className="mb-3">
-            <label htmlFor="exposureRate" className="form-label">
-              Exposure Rate (I mR/h):
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="exposureRate"
-              value={exposureRate}
-              onChange={(e) => setExposureRate(e.target.value)}
+    <Router>
+      <div className="container">
+        <header>
+          <h1>Health Physics</h1>
+        </header>
+        <nav className="menu">
+          <ul className="nav">
+            <li className="nav-item">
+              <Link className="nav-link" to="/shielding">
+                Shielding
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/activity">
+                Activity
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/useful-links">
+                Useful Links
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/about">
+                About
+              </Link>
+            </li>
+          </ul>
+        </nav>
+        <main>
+          <Routes>
+            <Route path="/shielding" element={<GammaShieldingCalculator />} />
+            <Route path="/activity" element={<h2>Decay</h2>} />
+            <Route
+              path="/useful-links"
+              element={<h2>Useful Links Section</h2>}
             />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="initialExposure" className="form-label">
-              Initial Exposure (Io (mR/h)):
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="initialExposure"
-              value={initialExposure}
-              onChange={(e) => setInitialExposure(e.target.value)}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="muOverRho" className="form-label">
-              Mass Attenuation Coefficient (μ/ρ):
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="muOverRho"
-              value={muOverRho}
-              onChange={(e) => setMuOverRho(e.target.value)}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="density" className="form-label">
-              Density (ρ):
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="density"
-              value={density}
-              onChange={(e) => setDensity(e.target.value)}
-            />
-          </div>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={calculateThickness}
-          >
-            Calculate
-          </button>
-        </form>
-        {shieldingThickness !== "" && (
-          <p>
-            Shielding Thickness (X) = {shieldingThickness.toFixed(2)}{" "}
-            centimeters
-          </p>
-        )}
-        <div>
-          <p id="equation"></p>
-        </div>
+            <Route path="/about" element={<h2>About</h2>} />
+          </Routes>
+        </main>
+        <footer>
+          <p>&copy; {new Date().getFullYear()} Jorge Macana</p>
+        </footer>
       </div>
-    </div>
+    </Router>
   );
-};
+}
 
-export default GammaShieldingCalculator;
+export default App;
