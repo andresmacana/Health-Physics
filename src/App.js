@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles.css";
 //import { MathJaxContext } from "react-mathjax";
 import katex from "katex";
+import "katex/dist/katex.min.css"; // Import Katex CSS
 
 const GammaShieldingCalculator = () => {
   const [exposureRate, setExposureRate] = useState("");
@@ -20,9 +21,16 @@ const GammaShieldingCalculator = () => {
 
   useEffect(() => {
     const equationElement = document.getElementById("equation");
-    const latexEquation = String.raw`X = -\frac{\ln\left(\frac{I}{I_0}\right)}{\left(\frac{\mu}{\rho}\right) \cdot \rho}`;
-    katex.render(latexEquation, equationElement);
-  }, []);
+    const latexEquation = String.raw`X = -\frac{\ln\left(\frac{I}{I_o}\right)}{\left(\frac{\mu}{\rho}\right) \cdot \rho}`;
+    try {
+      katex.render(latexEquation, equationElement, {
+        throwOnError: false,
+        displayMode: true, // Render in display mode (centered)
+      });
+    } catch (error) {
+      console.error("Error rendering Katex:", error);
+    }
+  }, [exposureRate, initialExposure, muOverRho, density]);
 
   return (
     <div className="container">
@@ -31,7 +39,7 @@ const GammaShieldingCalculator = () => {
         <form>
           <div className="mb-3">
             <label htmlFor="exposureRate" className="form-label">
-              Exposure Rate (I):
+              Exposure Rate (I mR/h):
             </label>
             <input
               type="text"
@@ -43,7 +51,7 @@ const GammaShieldingCalculator = () => {
           </div>
           <div className="mb-3">
             <label htmlFor="initialExposure" className="form-label">
-              Initial Exposure (I0):
+              Initial Exposure (Io (mR/h)):
             </label>
             <input
               type="text"
@@ -91,7 +99,9 @@ const GammaShieldingCalculator = () => {
             centimeters
           </p>
         )}
-        <p id="equation"></p>
+        <div>
+          <p id="equation"></p>
+        </div>
       </div>
     </div>
   );
