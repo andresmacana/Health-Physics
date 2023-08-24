@@ -5,6 +5,7 @@ import "./styles0.css";
 import Header from "./Header";
 import Menu from "./Menu";
 import GammaShieldingCalculator from "./GammaShieldingCalculator";
+import Decay from "./Decay2";
 
 function App() {
   return (
@@ -14,10 +15,10 @@ function App() {
         <div>
           <Menu />
         </div>
-        <main>
+        <main className="content">
           <Routes>
             <Route path="/shielding" element={<GammaShieldingCalculator />} />
-            <Route path="/activity" element={<h2>Activity Section</h2>} />
+            <Route path="/activity" element={<Decay />} />
             <Route
               path="/useful-links"
               element={<h2>Useful Links Section</h2>}
