@@ -7,8 +7,8 @@ import Menu from "./Menu";
 import GammaShieldingCalculator from "./GammaShieldingCalculator";
 import Decay from "./Decay2";
 import HVL from "./HVL";
-import Intra from "../old/Intra";
-import IntraLin from "../old/IntraA";
+import Intra from "./Intra";
+import IntraLin from "./IntraA";
 import CalculationsForm2 from "./IntraB";
 
 function App() {
