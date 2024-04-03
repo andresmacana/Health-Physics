@@ -16,6 +16,26 @@ function Menu() {
           </Link>
         </li>
         <li className="nav-item">
+          <Link className="nav-link" to="/HVL">
+            HVL - CDA
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/Intra">
+            Intra Calculations
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/IntraA">
+            Intra Calculations 2
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/IntraB">
+            x-ray tube Calculations
+          </Link>
+        </li>
+        <li className="nav-item">
           <Link className="nav-link" to="/useful-links">
             Useful Links
           </Link>

@@ -6,6 +6,10 @@ import Header from "./Header";
 import Menu from "./Menu";
 import GammaShieldingCalculator from "./GammaShieldingCalculator";
 import Decay from "./Decay2";
+import HVL from "./HVL";
+import Intra from "../old/Intra";
+import IntraLin from "../old/IntraA";
+import CalculationsForm2 from "./IntraB";
 
 function App() {
   return (
@@ -19,6 +23,10 @@ function App() {
           <Routes>
             <Route path="/shielding" element={<GammaShieldingCalculator />} />
             <Route path="/activity" element={<Decay />} />
+            <Route path="/HVL" element={<HVL />} />
+            {/* <Route path="/Intra" element={<Intra />} />
+            <Route path="/IntraA" element={<IntraLin />} /> */}
+            <Route path="/IntraB" element={<CalculationsForm2 />} />
             <Route
               path="/useful-links"
               element={<h2>Useful Links Section</h2>}
