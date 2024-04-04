@@ -32,6 +32,26 @@ const CalculationsForm2 = () => {
   const [skinExposure, setskinExposure] = useState("");
   const [dosemGy, setdosemGy] = useState("");
 
+  useEffect(() => {
+    const equationElement1 = document.getElementById("lineality");
+    const equationElement2 = document.getElementById("percent");
+    const latexEquation = String.raw`\frac{mR}{mA*t}`;
+    const percentEq = String.raw`\text{< } 0.1\%`;
+
+    try {
+      katex.render(latexEquation, equationElement1, {
+        throwOnError: false,
+        displayMode: true,
+      });
+      katex.render(percentEq, equationElement2, {
+        throwOnError: false,
+        displayMode: true,
+      });
+    } catch (error) {
+      console.error("Error rendering Katex:", error);
+    }
+  }, []);
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -274,13 +294,19 @@ const CalculationsForm2 = () => {
 
           <div id="result1" className="mt-4">
             <h4 className="text-center">Resultados:</h4>
-            <p className="text-center">mR/t*mA: {linearidad1}</p>
-            <p className="text-center">mR/t*mA: {linearidad2}</p>
-            <p className="text-center">mR/t*mA: {linearidad3}</p>
-            <p className="text-center">mR/t*mA: {linearidad4}</p>
-            <p className="text-center">Primary ray: {primaryRay}</p>
-            <p className="text-center">Less than 0.1%?: {less01percent}</p>
-            <p className="text-center">HVL: {hvl}</p>
+            <div>
+              <p id="lineality"></p>
+            </div>
+            <p className="text-center">lineality #1: {linearidad1}</p>
+            <p className="text-center">lineality #2: {linearidad2}</p>
+            <p className="text-center">lineality #3: {linearidad3}</p>
+            <p className="text-center">lineality #4: {linearidad4}</p>
+            <p className="text-center">Primary ray: {primaryRay} mR</p>
+            <div>
+              <p id="percent"></p>
+            </div>
+            <p className="text-center"> {less01percent}</p>
+            <p className="text-center">HVL: {hvl} mm Al</p>
             <p className="text-center">
               Skin exposure - bitewing-: {skinExposure}
             </p>
