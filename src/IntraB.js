@@ -32,6 +32,7 @@ const CalculationsForm2 = () => {
   const [less01percent, setless01percent] = useState("");
   const [skinExposure, setskinExposure] = useState("");
   const [dosemGy, setdosemGy] = useState("");
+  const [standardDeviation, setStandardDeviation] = useState(null);
 
   useEffect(() => {
     const equationElement1 = document.getElementById("lineality");
@@ -104,7 +105,39 @@ const CalculationsForm2 = () => {
     };
     calcCoefficientRange();
 
-    // Calculate the expression
+    const calculateStandardDeviation = () => {
+      // Paso 1: Recopilar los valores de exposición en un arreglo
+      const data = [
+        parseFloat(exposure1),
+        parseFloat(exposure2),
+        parseFloat(exposure3),
+        parseFloat(exposure4),
+      ];
+
+      // Paso 2: Calcular la media de los datos
+      const mean = data.reduce((acc, val) => acc + val, 0) / data.length;
+
+      // Paso 3: Calcular la suma de los cuadrados de las diferencias entre cada valor y la media
+      const sumOfSquaredDifferences = data.reduce(
+        (acc, val) => acc + Math.pow(val - mean, 2),
+        0
+      );
+
+      // Paso 4: Calcular la varianza como la suma de los cuadrados de las diferencias dividida por el número de elementos
+      const variance = sumOfSquaredDifferences / data.length;
+
+      // Paso 5: Calcular la desviación estándar como la raíz cuadrada de la varianza
+      const standardDeviation = Math.sqrt(variance);
+
+      // Paso 6: Retornar la desviación estándar
+      setStandardDeviation(standardDeviation.toFixed(2)); // Redondear la desviación estándar a 2 decimales antes de retornarla
+    };
+    calculateStandardDeviation();
+
+    /* const handleCalculateClick = () => {
+      const result = calculateStandardDeviation();
+      setStandardDeviation(result); // Establecer la desviación estándar en el estado
+    }; */
 
     // Calcular el primaryRay
     const calcprimaryRay = () => {
@@ -327,6 +360,8 @@ const CalculationsForm2 = () => {
             <p className="text-left">lineality #2: {linearidad2}</p>
             <p className="text-left">lineality #3: {linearidad3}</p>
             <p className="text-left">lineality #4: {linearidad4}</p>
+            <p className="text-left">Standard Deviation: {standardDeviation}</p>
+
             <p className="text-left">Primary ray: {primaryRay} mR</p>
             <div>
               <p id="CoeffRange"> </p>
