@@ -31,6 +31,7 @@ const CalculationsForm2 = () => {
   const [CoefficientRange, setCoeffiecientRange] = useState("");
   const [less01percent, setless01percent] = useState("");
   const [skinExposure, setskinExposure] = useState("");
+  const [skinExposuremGy, setskinExposuremGy] = useState("");
   const [dosemGy, setdosemGy] = useState("");
   const [standardDeviation, setStandardDeviation] = useState(null);
 
@@ -141,7 +142,7 @@ const CalculationsForm2 = () => {
 
     // Calcular el primaryRay
     const calcprimaryRay = () => {
-      const x = (2 * exposure4 * distance ** 2) / distanceSkin ** 2;
+      const x = (2 * exposure4 * distance ** 2) / 400; // leak  from 20 cm
       setprimaryRay(x.toFixed(2));
     };
     calcprimaryRay();
@@ -164,6 +165,13 @@ const CalculationsForm2 = () => {
       setskinExposure(x.toFixed(1));
     };
     calcskinExposure();
+
+    //To mGy units
+    const calcskinExposuremGy = () => {
+      const x = (bitewing * distance ** 2) / distanceSkin ** 2 / 115;
+      setskinExposuremGy(x.toFixed(1));
+    };
+    calcskinExposuremGy();
 
     //dose mGy
     const calcdosemGy = () => {
@@ -202,6 +210,7 @@ const CalculationsForm2 = () => {
                     onChange={(e) => setkV(e.target.value)}
                   />
                 </div>
+
                 <div className="col-md-6">
                   <label htmlFor="distance">Distance tube to detector:</label>
                   <input
@@ -362,7 +371,12 @@ const CalculationsForm2 = () => {
             <p className="text-left">lineality #4: {linearidad4}</p>
             <p className="text-left">Standard Deviation: {standardDeviation}</p>
 
-            <p className="text-left">Primary ray: {primaryRay} mR</p>
+            <p className="text-left">
+              Primary ray:{" "}
+              <b>
+                <font color="red">{primaryRay} mR</font>
+              </b>
+            </p>
             <div>
               <p id="CoeffRange"> </p>
             </div>
@@ -371,9 +385,23 @@ const CalculationsForm2 = () => {
               <p id="percent"></p>
             </div>
             <p className="text-left"> {less01percent}</p>
-            <p className="text-left">HVL: {hvl} mm Al</p>
             <p className="text-left">
-              Skin exposure - bitewing-: {skinExposure}
+              HVL:{" "}
+              <b>
+                <font color="red">{hvl} mm Al</font>
+              </b>
+            </p>
+            <p className="text-left">
+              Skin exposure for bitewing:{" "}
+              <b>
+                <font color="red">{skinExposure} mR</font>
+              </b>
+            </p>
+            <p className="text-left">
+              Exposure:{" "}
+              <b>
+                <font color="red">{skinExposuremGy} mGy</font>
+              </b>
             </p>
           </div>
         </div>
