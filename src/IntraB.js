@@ -404,7 +404,7 @@ const CalculationsForm2 = () => {
               </b>
             </p>
           </div> */}
-
+          {/* 
           <div id="result1" className="mt-4">
             <h4 className="text-center">Results:</h4>
             <div className="row">
@@ -455,6 +455,82 @@ const CalculationsForm2 = () => {
                     <font color="red">{skinExposuremGy} mGy</font>
                   </b>
                 </p>
+              </div>
+            </div>
+          </div> */}
+
+          <div id="result1" className="mt-4">
+            <h4 className="text-center">Results:</h4>
+            <div className="row">
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label htmlFor="lineality">Lineality:</label>
+                  <p id="lineality"></p>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="linearidad1">Lineality #1:</label>
+                  <p className="text-left">{linearidad1}</p>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="linearidad2">Lineality #2:</label>
+                  <p className="text-left">{linearidad2}</p>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="linearidad3">Lineality #3:</label>
+                  <p className="text-left">{linearidad3}</p>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="linearidad4">Lineality #4:</label>
+                  <p className="text-left">{linearidad4}</p>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="standardDeviation">Standard Deviation:</label>
+                  <p className="text-left">{standardDeviation}</p>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="primaryRay">Primary ray:</label>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{primaryRay} mR</font>
+                    </b>
+                  </p>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label htmlFor="CoeffRange">Coefficient Range:</label>
+                  <p id="CoeffRange"></p>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="percent">Less than 0.1%:</label>
+                  <p id="percent">{less01percent}</p>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="hvl">HVL:</label>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{hvl} mm Al</font>
+                    </b>
+                  </p>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="skinExposure">
+                    Skin exposure for bitewing:
+                  </label>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{skinExposure} mR</font>
+                    </b>
+                  </p>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="skinExposuremGy">Exposure:</label>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{skinExposuremGy} mGy</font>
+                    </b>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
