@@ -469,23 +469,43 @@ const CalculationsForm2 = () => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="linearidad1">Lineality #1:</label>
-                  <p className="text-left">{linearidad1}</p>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{linearidad1}</font>
+                    </b>
+                  </p>
                 </div>
                 <div className="form-group">
                   <label htmlFor="linearidad2">Lineality #2:</label>
-                  <p className="text-left">{linearidad2}</p>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{linearidad2}</font>
+                    </b>
+                  </p>
                 </div>
                 <div className="form-group">
                   <label htmlFor="linearidad3">Lineality #3:</label>
-                  <p className="text-left">{linearidad3}</p>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{linearidad3}</font>
+                    </b>
+                  </p>
                 </div>
                 <div className="form-group">
                   <label htmlFor="linearidad4">Lineality #4:</label>
-                  <p className="text-left">{linearidad4}</p>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{linearidad4}</font>
+                    </b>
+                  </p>
                 </div>
                 <div className="form-group">
                   <label htmlFor="standardDeviation">Standard Deviation:</label>
-                  <p className="text-left">{standardDeviation}</p>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{standardDeviation}</font>
+                    </b>
+                  </p>
                 </div>
                 <div className="form-group">
                   <label htmlFor="primaryRay">Primary ray:</label>
@@ -503,7 +523,11 @@ const CalculationsForm2 = () => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="percent">Less than 0.1%:</label>
-                  <p id="percent">{less01percent}</p>
+                  <p id="percent">
+                    <b>
+                      <font color="red">{less01percent}</font>
+                    </b>
+                  </p>
                 </div>
                 <div className="form-group">
                   <label htmlFor="hvl">HVL:</label>
