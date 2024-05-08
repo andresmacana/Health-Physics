@@ -359,7 +359,7 @@ const CalculationsForm2 = () => {
               Calcular
             </button>
           </form>
-
+          {/* 
           <div id="result1" className="mt-4">
             <h4 className="text-center">Results:</h4>
             <div>
@@ -403,6 +403,60 @@ const CalculationsForm2 = () => {
                 <font color="red">{skinExposuremGy} mGy</font>
               </b>
             </p>
+          </div> */}
+
+          <div id="result1" className="mt-4">
+            <h4 className="text-center">Results:</h4>
+            <div className="row">
+              <div className="col-md-6">
+                <div>
+                  <p id="lineality"></p>
+                </div>
+                <p className="text-left">lineality #1: {linearidad1}</p>
+                <p className="text-left">lineality #2: {linearidad2}</p>
+                <p className="text-left">lineality #3: {linearidad3}</p>
+                <p className="text-left">lineality #4: {linearidad4}</p>
+                <p className="text-left">
+                  Standard Deviation: {standardDeviation}
+                </p>
+                <p className="text-left">
+                  Primary ray:{" "}
+                  <b>
+                    <font color="red">{primaryRay} mR</font>
+                  </b>
+                </p>
+              </div>
+              <div className="col-md-6">
+                <div>
+                  <p id="CoeffRange"> </p>
+                </div>
+                <p className="text-left">
+                  Coefficient Range: {CoefficientRange}
+                </p>
+                <div>
+                  <p id="percent"></p>
+                </div>
+                <p className="text-left"> {less01percent}</p>
+                <p className="text-left">
+                  HVL:{" "}
+                  <b>
+                    <font color="red">{hvl} mm Al</font>
+                  </b>
+                </p>
+                <p className="text-left">
+                  Skin exposure for bitewing:{" "}
+                  <b>
+                    <font color="red">{skinExposure} mR</font>
+                  </b>
+                </p>
+                <p className="text-left">
+                  Exposure:{" "}
+                  <b>
+                    <font color="red">{skinExposuremGy} mGy</font>
+                  </b>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
