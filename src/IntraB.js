@@ -10,6 +10,8 @@ const CalculationsForm2 = () => {
   const [kV, setkV] = useState("70");
   const [distance, setdistance] = useState("30");
   const [distanceSkin, setdistanceSkin] = useState("20");
+  const [distancePan, setdistancePan] = useState("50");
+  const [distanceLeak, setdistanceLeak] = useState("20");
   const [time1, settime1] = useState("0.1");
   const [exposure1, setexposure1] = useState("");
   const [time2, settime2] = useState("0.16");
@@ -28,12 +30,18 @@ const CalculationsForm2 = () => {
   const [linearidad3, setlinearidad3] = useState("");
   const [linearidad4, setlinearidad4] = useState("");
   const [primaryRay, setprimaryRay] = useState("");
+  const [primaryRayPan, setprimaryRayPan] = useState("");
   const [CoefficientRange, setCoeffiecientRange] = useState("");
+  const [CoeffVariation, setCoeffVariation] = useState("");
   const [less01percent, setless01percent] = useState("");
+  const [less01percentPan, setless01percentPan] = useState("");
   const [skinExposure, setskinExposure] = useState("");
   const [skinExposuremGy, setskinExposuremGy] = useState("");
+  const [skinExposuremGyPan, setskinExposuremGyPan] = useState("");
   const [dosemGy, setdosemGy] = useState("");
+  const [dosemGyPan, setdosemGyPan] = useState("");
   const [standardDeviation, setStandardDeviation] = useState(null);
+  const [mean, setmean] = useState();
 
   useEffect(() => {
     const equationElement1 = document.getElementById("lineality");
@@ -106,6 +114,18 @@ const CalculationsForm2 = () => {
     };
     calcCoefficientRange();
 
+    const calcMean = () => {
+      const data = [
+        parseFloat(exposure1),
+        parseFloat(exposure2),
+        parseFloat(exposure3),
+        parseFloat(exposure4),
+      ];
+      const mean = data.reduce((acc, val) => acc + val, 0) / data.length;
+      setmean(mean.toFixed(1));
+    };
+    calcMean();
+
     const calculateStandardDeviation = () => {
       // Paso 1: Recopilar los valores de exposición en un arreglo
       const data = [
@@ -135,6 +155,12 @@ const CalculationsForm2 = () => {
     };
     calculateStandardDeviation();
 
+    const CoeffVariation = () => {
+      const x = standardDeviation / mean;
+      setCoeffVariation(x.toFixed(1));
+    };
+    CoeffVariation();
+
     /* const handleCalculateClick = () => {
       const result = calculateStandardDeviation();
       setStandardDeviation(result); // Establecer la desviación estándar en el estado
@@ -142,16 +168,28 @@ const CalculationsForm2 = () => {
 
     // Calcular el primaryRay
     const calcprimaryRay = () => {
-      const x = (2 * exposure4 * distance ** 2) / 400; // leak  from 20 cm
+      const x = (2 * exposure4 * distance ** 2) / distanceLeak ** 2; // leak  from 20 cm
       setprimaryRay(x.toFixed(2));
     };
     calcprimaryRay();
+
+    const calcprimaryRayPan = () => {
+      const x = (2 * exposure4 * distancePan ** 2) / distanceLeak ** 2; // leak  from 20 cm
+      setprimaryRayPan(x.toFixed(2));
+    };
+    calcprimaryRayPan();
 
     const calcless01percent = () => {
       const x = (0.1 * primaryRay) / 100;
       setless01percent(x.toFixed(2));
     };
     calcless01percent();
+
+    const calcless01percentPan = () => {
+      const x = (0.1 * primaryRayPan) / 100;
+      setless01percentPan(x.toFixed(2));
+    };
+    calcless01percentPan();
 
     const calchvl = () => {
       const x = (parseFloat(0.693) * 3) / Math.log(exposure4 / exposureAl);
@@ -175,10 +213,16 @@ const CalculationsForm2 = () => {
 
     //dose mGy
     const calcdosemGy = () => {
-      const x = (length * (width / 10) * bitewing) / 114;
+      const x = (((length * width) / 100) * bitewing) / 115;
       setdosemGy(x);
     };
     calcdosemGy();
+
+    const calcskinExposureGyPan = () => {
+      const x = (length * width * exposure4) / 11500;
+      setskinExposuremGyPan(x.toFixed(1));
+    };
+    calcskinExposureGyPan();
   };
 
   return (
@@ -212,7 +256,9 @@ const CalculationsForm2 = () => {
                 </div>
 
                 <div className="col-md-6">
-                  <label htmlFor="distance">Distance tube to detector:</label>
+                  <label htmlFor="distance">
+                    Distance tube to detector - intra:
+                  </label>
                   <input
                     type="number"
                     id="distance"
@@ -231,6 +277,33 @@ const CalculationsForm2 = () => {
                     onChange={(e) => setdistanceSkin(e.target.value)}
                   />
                 </div>
+
+                <div className="col-md-6">
+                  <label htmlFor="distancePan">
+                    Distance tube to detector - Pan:
+                  </label>
+                  <input
+                    type="number"
+                    id="distancePan"
+                    className="form-control"
+                    value={distancePan}
+                    onChange={(e) => setdistancePan(e.target.value)}
+                  />
+                </div>
+
+                <div className="col-md-6">
+                  <label htmlFor="distanceLeak">
+                    Distance tube to detector - leak:
+                  </label>
+                  <input
+                    type="number"
+                    id="distanceLeak"
+                    className="form-control"
+                    value={distanceLeak}
+                    onChange={(e) => setdistanceLeak(e.target.value)}
+                  />
+                </div>
+
                 <div className="col-md-6">
                   <label htmlFor="time1">Time #1:</label>
                   <input
@@ -324,7 +397,7 @@ const CalculationsForm2 = () => {
                   />
                 </div>
                 <div className="col-md-6">
-                  <label htmlFor="length">Length:</label>
+                  <label htmlFor="length">Length (mm):</label>
                   <input
                     type="number"
                     id="length"
@@ -334,7 +407,7 @@ const CalculationsForm2 = () => {
                   />
                 </div>
                 <div className="col-md-6">
-                  <label htmlFor="width">with:</label>
+                  <label htmlFor="width">with (mm):</label>
                   <input
                     type="number"
                     id="width"
@@ -344,7 +417,7 @@ const CalculationsForm2 = () => {
                   />
                 </div>
                 <div className="col-md-6">
-                  <label htmlFor="bitewing">bitewing:</label>
+                  <label htmlFor="bitewing">bitewing (mR):</label>
                   <input
                     type="number"
                     id="bitewing"
@@ -508,10 +581,28 @@ const CalculationsForm2 = () => {
                   </p>
                 </div>
                 <div className="form-group">
+                  <label htmlFor="CoeffVariation">
+                    Variation Coefficient less than 8% :
+                  </label>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{CoeffVariation}</font>
+                    </b>
+                  </p>
+                </div>
+                <div className="form-group">
                   <label htmlFor="primaryRay">Primary ray:</label>
                   <p className="text-left">
                     <b>
                       <font color="red">{primaryRay} mR</font>
+                    </b>
+                  </p>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="primaryRayPan">Primary ray Pan:</label>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{primaryRayPan} mR</font>
                     </b>
                   </p>
                 </div>
@@ -522,10 +613,18 @@ const CalculationsForm2 = () => {
                   <p id="CoeffRange"></p>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="percent">Less than 0.1%:</label>
-                  <p id="percent">
+                  <label htmlFor="percent">Less than 0.1% intra:</label>
+                  <p className="text-left">
                     <b>
                       <font color="red">{less01percent}</font>
+                    </b>
+                  </p>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="percentPan">Less than 0.1% Pan:</label>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{less01percentPan}</font>
                     </b>
                   </p>
                 </div>
@@ -552,6 +651,14 @@ const CalculationsForm2 = () => {
                   <p className="text-left">
                     <b>
                       <font color="red">{skinExposuremGy} mGy</font>
+                    </b>
+                  </p>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="skinExposuremGyPan">Exposure Pan:</label>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{skinExposuremGyPan} mGy</font>
                     </b>
                   </p>
                 </div>
