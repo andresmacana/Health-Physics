@@ -168,7 +168,7 @@ const CalculationsForm2 = () => {
 
     // Calcular el primaryRay
     const calcprimaryRay = () => {
-      const x = (2 * exposure4 * distance ** 2) / distanceLeak ** 2; // leak  from 20 cm
+      const x = (2 * exposure4 * distance ** 2) / distanceSkin ** 2; // leak  from 20 cm
       setprimaryRay(x.toFixed(2));
     };
     calcprimaryRay();
@@ -230,7 +230,7 @@ const CalculationsForm2 = () => {
       <div className="row justify-content-center">
         <div className="col-md-6">
           <form onSubmit={handleSubmit} className="bg-light p-4 rounded">
-            <h2 className="text-center mb-4">Exposure, others</h2>
+            <h2 className="text-center mb-4">X-Ray verification</h2>
             {/* Input fields go here */}
             <div className="form-group">
               <div className="row">
@@ -539,8 +539,28 @@ const CalculationsForm2 = () => {
                 <div className="form-group">
                   <label htmlFor="lineality">Lineality:</label>
                   <p id="lineality"></p>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{linearidad1}</font>
+                    </b>
+                  </p>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{linearidad2}</font>
+                    </b>
+                  </p>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{linearidad3}</font>
+                    </b>
+                  </p>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{linearidad4}</font>
+                    </b>
+                  </p>
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label htmlFor="linearidad1">Lineality #1:</label>
                   <p className="text-left">
                     <b>
@@ -571,7 +591,7 @@ const CalculationsForm2 = () => {
                       <font color="red">{linearidad4}</font>
                     </b>
                   </p>
-                </div>
+                </div> */}
                 <div className="form-group">
                   <label htmlFor="standardDeviation">Standard Deviation:</label>
                   <p className="text-left">
@@ -582,7 +602,7 @@ const CalculationsForm2 = () => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="CoeffVariation">
-                    Variation Coefficient less than 8% :
+                    Variation Coefficient &le; 5% :
                   </label>
                   <p className="text-left">
                     <b>
@@ -609,8 +629,15 @@ const CalculationsForm2 = () => {
               </div>
               <div className="col-md-6">
                 <div className="form-group">
-                  <label htmlFor="CoeffRange">Coefficient Range:</label>
+                  <label htmlFor="CoeffRange">
+                    Coefficient Range &le; 0.1:
+                  </label>
                   <p id="CoeffRange"></p>
+                  <p className="text-left">
+                    <b>
+                      <font color="red">{CoefficientRange}</font>
+                    </b>
+                  </p>
                 </div>
                 <div className="form-group">
                   <label htmlFor="percent">Less than 0.1% intra:</label>
