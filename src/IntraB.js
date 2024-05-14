@@ -20,6 +20,10 @@ const CalculationsForm2 = () => {
   const [exposure3, setexposure3] = useState("");
   const [time4, settime4] = useState("0.32");
   const [exposure4, setexposure4] = useState("");
+  const [exposureRep1, setexposureRep1] = useState("");
+  const [exposureRep2, setexposureRep2] = useState("");
+  const [exposureRep3, setexposureRep3] = useState("");
+  const [exposureRep4, setexposureRep4] = useState("");
   const [exposureAl, setexposureAl] = useState("");
   const [length, setlength] = useState("13");
   const [width, setwidth] = useState("5");
@@ -32,7 +36,7 @@ const CalculationsForm2 = () => {
   const [primaryRay, setprimaryRay] = useState("");
   const [primaryRayPan, setprimaryRayPan] = useState("");
   const [CoefficientRange, setCoeffiecientRange] = useState("");
-  const [CoeffVariation, setCoeffVariation] = useState("");
+  const [CoeffVariation, setCoeffVariation] = useState(0);
   const [less01percent, setless01percent] = useState("");
   const [less01percentPan, setless01percentPan] = useState("");
   const [skinExposure, setskinExposure] = useState("");
@@ -40,16 +44,25 @@ const CalculationsForm2 = () => {
   const [skinExposuremGyPan, setskinExposuremGyPan] = useState("");
   const [dosemGy, setdosemGy] = useState("");
   const [dosemGyPan, setdosemGyPan] = useState("");
-  const [standardDeviation, setStandardDeviation] = useState(null);
-  const [mean, setmean] = useState();
+  const [standardDeviation, setStandardDeviation] = useState(0);
+  const [mean, setmean] = useState(0);
+  const [maxOverMin, setmaxOverMin] = useState("");
 
   useEffect(() => {
     const equationElement1 = document.getElementById("lineality");
     const equationElement2 = document.getElementById("percent");
-    const equationElement3 = document.getElementById("CoeffRange");
-    const latexEquation = String.raw`\frac{mR}{mA*t}`;
-    const percentEq = String.raw`\text{< } 0.1\%`;
-    const coeffRangeEq = String.raw`\frac{max-min}{max+min} \leq 0.1\%`;
+    const equationElement3 = document.getElementById("varCoeff");
+    const equationElement4 = document.getElementById("kermamGy");
+    const equationElement5 = document.getElementById("kermamGyPan");
+    const equationElement6 = document.getElementById("exposureToKerma");
+    const equationElement7 = document.getElementById("exposureToKerma2");
+    const latexEquation = String.raw`\frac{X_{max}+X_{min}}{X_{max}-X_{min}} \leq 0.1`; /* String.raw`\frac{mR}{mA*t} \leq 0.1`; */
+    const percentEq = String.raw`X=\frac{mR}{mA\cdot t}`;
+    const varCoeffEq = String.raw`\frac{\sigma}{\bar{x}} \lt 5\%`;
+    const kermamGyEq = String.raw`K_{bitewing}=\frac{E_{mR}\cdot{d_{1}^2}}{d_{2}^2\cdot{115}}`;
+    const kermamGyPanEq = String.raw`K_{mGy}=\frac{E_{mR}\cdot(L\cdot W)}{115}`;
+    const exposureToKerma = String.raw`1 Gy \approx 115 R \ or \ 1 mGy \approx 115 mGy`;
+    const exposureToKerma2 = String.raw`1 R \approx 8.73 \ mGy \ or \ 1 mR \approx 8.73 \mu Gy`;
 
     try {
       katex.render(latexEquation, equationElement1, {
@@ -60,7 +73,23 @@ const CalculationsForm2 = () => {
         throwOnError: false,
         displayMode: true,
       });
-      katex.render(coeffRangeEq, equationElement3, {
+      katex.render(varCoeffEq, equationElement3, {
+        throwOnError: false,
+        displayMode: true,
+      });
+      katex.render(kermamGyEq, equationElement4, {
+        throwOnError: false,
+        displayMode: true,
+      });
+      katex.render(kermamGyPanEq, equationElement5, {
+        throwOnError: false,
+        displayMode: true,
+      });
+      katex.render(exposureToKerma, equationElement6, {
+        throwOnError: false,
+        displayMode: true,
+      });
+      katex.render(exposureToKerma2, equationElement7, {
         throwOnError: false,
         displayMode: true,
       });
@@ -69,11 +98,86 @@ const CalculationsForm2 = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // Your useEffect code for rendering Katex equations
+  }, []);
+
+  useEffect(() => {
+    // Your useEffect code for calculating mean and standard deviation
+    const calcMean = () => {
+      const data = [
+        parseFloat(exposureRep1),
+        parseFloat(exposureRep2),
+        parseFloat(exposureRep3),
+        parseFloat(exposureRep4),
+      ];
+      const mean = data.reduce((acc, val) => acc + val, 0) / data.length;
+      setmean(mean.toFixed(2));
+    };
+    calcMean();
+
+    const calculateStandardDeviation = () => {
+      // Paso 1: Recopilar los valores de exposición en un arreglo
+      const data = [
+        parseFloat(exposureRep1),
+        parseFloat(exposureRep2),
+        parseFloat(exposureRep3),
+        parseFloat(exposureRep4),
+      ];
+
+      // Paso 2: Calcular la media de los datos
+      const mean = data.reduce((acc, val) => acc + val, 0) / data.length;
+
+      // Paso 3: Calcular la suma de los cuadrados de las diferencias entre cada valor y la media
+      const sumOfSquaredDifferences = data.reduce(
+        (acc, val) => acc + Math.pow(val - mean, 2),
+        0
+      );
+
+      // Paso 4: Calcular la varianza como la suma de los cuadrados de las diferencias dividida por el número de elementos
+      const variance = sumOfSquaredDifferences / data.length;
+
+      // Paso 5: Calcular la desviación estándar como la raíz cuadrada de la varianza
+      const standardDeviation = Math.sqrt(variance);
+
+      // Paso 6: Retornar la desviación estándar
+      setStandardDeviation(standardDeviation.toFixed(2)); // Redondear la desviación estándar a 2 decimales antes de retornarla
+    };
+    calculateStandardDeviation();
+  }, [exposureRep1, exposureRep2, exposureRep3, exposureRep4]);
+
+  useEffect(() => {
+    // Calculate CoeffVariation once both mean and standardDeviation are available
+    if (mean !== 0 && standardDeviation !== 0) {
+      const x = (standardDeviation / mean) * 100;
+      setCoeffVariation(x.toFixed(2));
+    }
+  }, [mean, standardDeviation]);
+
+  useEffect(() => {
+    // Calculate CoeffVariation once both mean and standardDeviation are available
+    const max = Math.max(
+      exposureRep1,
+      exposureRep2,
+      exposureRep3,
+      exposureRep4
+    );
+    const min = Math.min(
+      exposureRep1,
+      exposureRep2,
+      exposureRep3,
+      exposureRep4
+    );
+    const x = max / min;
+    setmaxOverMin(x.toFixed(2));
+  }, [exposureRep1, exposureRep2, exposureRep3, exposureRep4]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     // Calcular
     const linearidadValues = [];
+    const reproductibilityValues = [];
 
     const calclinearidad1 = () => {
       const x = exposure1 / (time1 * mA);
@@ -114,25 +218,25 @@ const CalculationsForm2 = () => {
     };
     calcCoefficientRange();
 
-    const calcMean = () => {
+    /* const calcMean = () => {
       const data = [
-        parseFloat(exposure1),
-        parseFloat(exposure2),
-        parseFloat(exposure3),
-        parseFloat(exposure4),
+        parseFloat(exposureRep1),
+        parseFloat(exposureRep2),
+        parseFloat(exposureRep3),
+        parseFloat(exposureRep4),
       ];
       const mean = data.reduce((acc, val) => acc + val, 0) / data.length;
       setmean(mean.toFixed(1));
     };
-    calcMean();
+    calcMean(); */
 
-    const calculateStandardDeviation = () => {
+    /* const calculateStandardDeviation = () => {
       // Paso 1: Recopilar los valores de exposición en un arreglo
       const data = [
-        parseFloat(exposure1),
-        parseFloat(exposure2),
-        parseFloat(exposure3),
-        parseFloat(exposure4),
+        parseFloat(exposureRep1),
+        parseFloat(exposureRep2),
+        parseFloat(exposureRep3),
+        parseFloat(exposureRep4),
       ];
 
       // Paso 2: Calcular la media de los datos
@@ -153,13 +257,15 @@ const CalculationsForm2 = () => {
       // Paso 6: Retornar la desviación estándar
       setStandardDeviation(standardDeviation.toFixed(2)); // Redondear la desviación estándar a 2 decimales antes de retornarla
     };
-    calculateStandardDeviation();
+    calculateStandardDeviation(); */
 
-    const CoeffVariation = () => {
-      const x = standardDeviation / mean;
-      setCoeffVariation(x.toFixed(1));
+    /* const CoeffVariation = () => {
+      if (mean !== 0 && standardDeviation !== 0) {
+        const x = (standardDeviation / mean) * 100;
+        setCoeffVariation(x.toFixed(2));
+      }
     };
-    CoeffVariation();
+    CoeffVariation(); */
 
     /* const handleCalculateClick = () => {
       const result = calculateStandardDeviation();
@@ -384,6 +490,40 @@ const CalculationsForm2 = () => {
                     onChange={(e) => setexposure4(e.target.value)}
                   />
                 </div>
+
+                <div className="col-md-6">
+                  <label htmlFor="exposureRep">
+                    exposure reproductibility:
+                  </label>
+                  <input
+                    type="number"
+                    id="exposureRep1"
+                    className="form-control"
+                    value={exposureRep1}
+                    onChange={(e) => setexposureRep1(e.target.value)}
+                  />
+                  <input
+                    type="number"
+                    id="exposureRep2"
+                    className="form-control"
+                    value={exposureRep2}
+                    onChange={(e) => setexposureRep2(e.target.value)}
+                  />
+                  <input
+                    type="number"
+                    id="exposureRep3"
+                    className="form-control"
+                    value={exposureRep3}
+                    onChange={(e) => setexposureRep3(e.target.value)}
+                  />
+                  <input
+                    type="number"
+                    id="exposureRep4"
+                    className="form-control"
+                    value={exposureRep4}
+                    onChange={(e) => setexposureRep4(e.target.value)}
+                  />
+                </div>
                 <div className="col-md-6">
                   <label htmlFor="exposureAl">
                     Exposure Measure with 3 mm Al:
@@ -537,8 +677,8 @@ const CalculationsForm2 = () => {
             <div className="row">
               <div className="col-md-6">
                 <div className="form-group">
-                  <label htmlFor="lineality">Lineality:</label>
-                  <p id="lineality"></p>
+                  <label htmlFor="lineality">Linearity:</label>
+
                   <p className="text-left">
                     <b>
                       <font color="red">{linearidad1}</font>
@@ -593,10 +733,14 @@ const CalculationsForm2 = () => {
                   </p>
                 </div> */}
                 <div className="form-group">
-                  <label htmlFor="standardDeviation">Standard Deviation:</label>
+                  <label htmlFor="standardDeviation">
+                    Standard Deviation and mean:
+                  </label>
                   <p className="text-left">
                     <b>
-                      <font color="red">{standardDeviation}</font>
+                      <font color="red">
+                        std : {standardDeviation} -- mean : {mean}
+                      </font>
                     </b>
                   </p>
                 </div>
@@ -604,27 +748,66 @@ const CalculationsForm2 = () => {
                   <label htmlFor="CoeffVariation">
                     Variation Coefficient &le; 5% :
                   </label>
-                  <p className="text-left">
+
+                  <input
+                    type="text"
+                    id="exposure4"
+                    className="form-control"
+                    value={CoeffVariation + "%"}
+                    readOnly
+                    style={{ color: "red", fontWeight: "bold" }}
+                  />
+
+                  {/* <p className="text-left">
                     <b>
                       <font color="red">{CoeffVariation}</font>
                     </b>
-                  </p>
+                  </p> */}
                 </div>
                 <div className="form-group">
+                  <label htmlFor="maxOverMin">Max/Min &le; 1:</label>
+
+                  <input
+                    type="text"
+                    id="maxOverMin"
+                    className="form-control"
+                    value={maxOverMin}
+                    readOnly
+                    style={{ color: "red", fontWeight: "bold" }}
+                  />
+                </div>
+
+                <div className="form-group">
                   <label htmlFor="primaryRay">Primary ray:</label>
-                  <p className="text-left">
+                  <input
+                    type="text"
+                    id="primaryRay"
+                    className="form-control"
+                    value={primaryRay + " mR"}
+                    readOnly
+                    style={{ color: "red", fontWeight: "bold" }}
+                  />
+                  {/* <p className="text-left">
                     <b>
                       <font color="red">{primaryRay} mR</font>
                     </b>
-                  </p>
+                  </p> */}
                 </div>
                 <div className="form-group">
                   <label htmlFor="primaryRayPan">Primary ray Pan:</label>
-                  <p className="text-left">
+                  <input
+                    type="text"
+                    id="primaryPan"
+                    className="form-control"
+                    value={primaryRayPan + " mR"}
+                    readOnly
+                    style={{ color: "red", fontWeight: "bold" }}
+                  />
+                  {/* <p className="text-left">
                     <b>
                       <font color="red">{primaryRayPan} mR</font>
                     </b>
-                  </p>
+                  </p> */}
                 </div>
               </div>
               <div className="col-md-6">
@@ -632,12 +815,20 @@ const CalculationsForm2 = () => {
                   <label htmlFor="CoeffRange">
                     Coefficient Range &le; 0.1:
                   </label>
-                  <p id="CoeffRange"></p>
-                  <p className="text-left">
+                  <input
+                    type="text"
+                    id="CoeffRange"
+                    className="form-control"
+                    value={CoefficientRange}
+                    readOnly
+                    style={{ color: "red", fontWeight: "bold" }}
+                  />
+                  {/* <p id="CoeffRange"></p> */}
+                  {/* <p className="text-left">
                     <b>
                       <font color="red">{CoefficientRange}</font>
                     </b>
-                  </p>
+                  </p> */}
                 </div>
                 <div className="form-group">
                   <label htmlFor="percent">Less than 0.1% intra:</label>
@@ -657,39 +848,91 @@ const CalculationsForm2 = () => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="hvl">HVL:</label>
-                  <p className="text-left">
+                  <input
+                    type="text"
+                    id="hvl"
+                    className="form-control"
+                    value={hvl + " mmAL"}
+                    readOnly
+                    style={{ color: "red", fontWeight: "bold" }}
+                  />
+                  {/* <p className="text-left">
                     <b>
                       <font color="red">{hvl} mm Al</font>
                     </b>
-                  </p>
+                  </p> */}
                 </div>
                 <div className="form-group">
                   <label htmlFor="skinExposure">
                     Skin exposure for bitewing:
                   </label>
-                  <p className="text-left">
+                  <input
+                    type="text"
+                    id="skinExposure"
+                    className="form-control"
+                    value={skinExposure + " mR"}
+                    readOnly
+                    style={{ color: "red", fontWeight: "bold" }}
+                  />
+                  {/* <p className="text-left">
                     <b>
                       <font color="red">{skinExposure} mR</font>
                     </b>
-                  </p>
+                  </p> */}
                 </div>
                 <div className="form-group">
                   <label htmlFor="skinExposuremGy">Exposure:</label>
-                  <p className="text-left">
+                  <input
+                    type="text"
+                    id="skinExposuremGy"
+                    className="form-control"
+                    value={skinExposuremGy + " mGy"}
+                    readOnly
+                    style={{ color: "red", fontWeight: "bold" }}
+                  />
+                  {/* <p className="text-left">
                     <b>
                       <font color="red">{skinExposuremGy} mGy</font>
                     </b>
-                  </p>
+                  </p> */}
                 </div>
                 <div className="form-group">
                   <label htmlFor="skinExposuremGyPan">Exposure Pan:</label>
-                  <p className="text-left">
+                  <input
+                    type="text"
+                    id="skinExposuremGyPan"
+                    className="form-control"
+                    value={skinExposuremGyPan + " mGy"}
+                    readOnly
+                    style={{ color: "red", fontWeight: "bold" }}
+                  />
+                  {/* <p className="text-left">
                     <b>
                       <font color="red">{skinExposuremGyPan} mGy</font>
                     </b>
-                  </p>
+                  </p> */}
                 </div>
               </div>
+            </div>
+            <div>
+              <h3>Equations</h3>
+              <p>Coefficient Range:</p>
+              <p id="lineality"></p>
+              <p>Where X is:</p>
+              <p id="percent"></p>
+              <p>Variation Coefficient:</p>
+              <p id="varCoeff"></p>
+              <p>Kerma for bitewing</p>
+              <p id="kermamGy"></p>
+              <p>Kerma for Panoramic</p>
+              <p id="kermamGyPan"></p>
+              <p>Exposure</p>
+              <p>
+                The air kerma (in gray, Gy) replaces the exposure (in roentgen,
+                R) as the measure of exposure.
+              </p>
+              <p id="exposureToKerma"></p>
+              <p id="exposureToKerma2"></p>
             </div>
           </div>
         </div>
