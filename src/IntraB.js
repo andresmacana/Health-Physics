@@ -61,7 +61,7 @@ const CalculationsForm2 = () => {
     const varCoeffEq = String.raw`\frac{\sigma}{\bar{x}} \lt 5\%`;
     const kermamGyEq = String.raw`K_{bitewing}=\frac{E_{mR}\cdot{d_{1}^2}}{d_{2}^2\cdot{115}}`;
     const kermamGyPanEq = String.raw`K_{mGy}=\frac{E_{mR}\cdot(L\cdot W)}{115}`;
-    const exposureToKerma = String.raw`1 Gy \approx 115 R \ or \ 1 mGy \approx 115 mGy`;
+    const exposureToKerma = String.raw`1 Gy \approx 115 R \ or \ 1 mGy \approx 115 mR`;
     const exposureToKerma2 = String.raw`1 R \approx 8.73 \ mGy \ or \ 1 mR \approx 8.73 \mu Gy`;
 
     try {
@@ -831,20 +831,40 @@ const CalculationsForm2 = () => {
                   </p> */}
                 </div>
                 <div className="form-group">
-                  <label htmlFor="percent">Less than 0.1% intra:</label>
-                  <p className="text-left">
+                  <label htmlFor="percent">
+                    Intra Leak &le; 0.1% primary ray:
+                  </label>
+                  <input
+                    type="text"
+                    id="percent"
+                    className="form-control"
+                    value={less01percent}
+                    readOnly
+                    style={{ color: "red", fontWeight: "bold" }}
+                  />
+                  {/* <p className="text-left">
                     <b>
                       <font color="red">{less01percent}</font>
                     </b>
-                  </p>
+                  </p> */}
                 </div>
                 <div className="form-group">
-                  <label htmlFor="percentPan">Less than 0.1% Pan:</label>
-                  <p className="text-left">
+                  <label htmlFor="percentPan">
+                    PAN Leak &le; 0.1% primary ray:
+                  </label>
+                  <input
+                    type="text"
+                    id="percentPan"
+                    className="form-control"
+                    value={less01percentPan}
+                    readOnly
+                    style={{ color: "red", fontWeight: "bold" }}
+                  />
+                  {/* <p className="text-left">
                     <b>
                       <font color="red">{less01percentPan}</font>
                     </b>
-                  </p>
+                  </p> */}
                 </div>
                 <div className="form-group">
                   <label htmlFor="hvl">HVL:</label>
@@ -881,7 +901,7 @@ const CalculationsForm2 = () => {
                   </p> */}
                 </div>
                 <div className="form-group">
-                  <label htmlFor="skinExposuremGy">Exposure:</label>
+                  <label htmlFor="skinExposuremGy">Dose:</label>
                   <input
                     type="text"
                     id="skinExposuremGy"
@@ -897,12 +917,12 @@ const CalculationsForm2 = () => {
                   </p> */}
                 </div>
                 <div className="form-group">
-                  <label htmlFor="skinExposuremGyPan">Exposure Pan:</label>
+                  <label htmlFor="skinExposuremGyPan">DAP Pan:</label>
                   <input
                     type="text"
                     id="skinExposuremGyPan"
                     className="form-control"
-                    value={skinExposuremGyPan + " mGy"}
+                    value={skinExposuremGyPan + " mGy.cm\u00B2"}
                     readOnly
                     style={{ color: "red", fontWeight: "bold" }}
                   />
