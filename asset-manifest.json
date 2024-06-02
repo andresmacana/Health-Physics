@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Health-Physics/static/css/main.f22cb7cc.css",
-    "main.js": "/Health-Physics/static/js/main.11a06c8d.js",
+    "main.css": "/Health-Physics/static/css/main.42f2bfb6.css",
+    "main.js": "/Health-Physics/static/js/main.eb605a1f.js",
     "static/media/KaTeX_AMS-Regular.ttf": "/Health-Physics/static/media/KaTeX_AMS-Regular.853be92419a6c3766b9a.ttf",
     "static/media/KaTeX_Main-Regular.ttf": "/Health-Physics/static/media/KaTeX_Main-Regular.9eba1d77abcf2aa6e94e.ttf",
     "static/media/KaTeX_Main-Bold.ttf": "/Health-Physics/static/media/KaTeX_Main-Bold.8169508bf58f8bd92ad8.ttf",
@@ -63,11 +63,11 @@
     "static/media/KaTeX_Size3-Regular.woff": "/Health-Physics/static/media/KaTeX_Size3-Regular.7947224e8a9914fa332b.woff",
     "static/media/KaTeX_Size3-Regular.woff2": "/Health-Physics/static/media/KaTeX_Size3-Regular.e1951519f6f0596f7356.woff2",
     "index.html": "/Health-Physics/index.html",
-    "main.f22cb7cc.css.map": "/Health-Physics/static/css/main.f22cb7cc.css.map",
-    "main.11a06c8d.js.map": "/Health-Physics/static/js/main.11a06c8d.js.map"
+    "main.42f2bfb6.css.map": "/Health-Physics/static/css/main.42f2bfb6.css.map",
+    "main.eb605a1f.js.map": "/Health-Physics/static/js/main.eb605a1f.js.map"
   },
   "entrypoints": [
-    "static/css/main.f22cb7cc.css",
-    "static/js/main.11a06c8d.js"
+    "static/css/main.42f2bfb6.css",
+    "static/js/main.eb605a1f.js"
   ]
 }
