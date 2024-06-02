@@ -10,6 +10,7 @@ import HVL from "./HVL";
 import Intra from "./Intra";
 import IntraLin from "./IntraA";
 import CalculationsForm2 from "./IntraB";
+import AppShield from "./shieldingXray";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             {/* <Route path="/Intra" element={<Intra />} />
             <Route path="/IntraA" element={<IntraLin />} /> */}
             <Route path="/IntraB" element={<CalculationsForm2 />} />
+            <Route path="/shieldingXray" element={<AppShield />} />
             <Route
               path="/useful-links"
               element={<h2>Useful Links Section</h2>}

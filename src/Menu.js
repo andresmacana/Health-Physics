@@ -36,6 +36,11 @@ function Menu() {
           </Link>
         </li>
         <li className="nav-item">
+          <Link className="nav-link" to="/shieldingXray">
+            Structural shielding design
+          </Link>
+        </li>
+        <li className="nav-item">
           <Link className="nav-link" to="/useful-links">
             Useful Links
           </Link>
