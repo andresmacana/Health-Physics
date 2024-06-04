@@ -142,12 +142,12 @@ function AppShield() {
           <Form.Label column sm="2">
             Dose/patient
           </Form.Label>
-          <Col sm="10">
+          <Col sm="3">
             <Form.Control
               type="number"
               value={Dp}
               onChange={(e) => setDp(e.target.value)}
-              placeholder="Enter Dp"
+              placeholder="Enter Dose mGy/patient"
             />
           </Col>
         </Form.Group>
@@ -156,12 +156,12 @@ function AppShield() {
           <Form.Label column sm="2">
             distance
           </Form.Label>
-          <Col sm="10">
+          <Col sm="3">
             <Form.Control
               type="number"
               value={d}
               onChange={(e) => setD(e.target.value)}
-              placeholder="Enter d"
+              placeholder="Enter distance"
             />
           </Col>
         </Form.Group>
@@ -170,12 +170,12 @@ function AppShield() {
           <Form.Label column sm="2">
             Patients
           </Form.Label>
-          <Col sm="10">
+          <Col sm="3">
             <Form.Control
               type="number"
               value={pat}
               onChange={(e) => setPat(e.target.value)}
-              placeholder="Enter Pat"
+              placeholder="Enter number of Patients"
             />
           </Col>
         </Form.Group>
@@ -184,7 +184,7 @@ function AppShield() {
           <Form.Label column sm="2">
             Barrier Type
           </Form.Label>
-          <Col sm="10">
+          <Col sm="3">
             <Form.Control
               as="select"
               value={barrierType}
@@ -200,7 +200,7 @@ function AppShield() {
           <Form.Label column sm="2">
             Material Type
           </Form.Label>
-          <Col sm="10">
+          <Col sm="3">
             <Form.Control
               as="select"
               value={materialType}
@@ -217,13 +217,13 @@ function AppShield() {
           <Form.Label column sm="2">
             Index
           </Form.Label>
-          <Col sm="10">
+          <Col sm="3">
             <Form.Control
               as="select"
               value={index}
               onChange={(e) => setIndex(e.target.value)}
             >
-              <option value="">Select an Index</option>
+              <option value="">Select an kV or technique</option>
               {(barrierType === "primary"
                 ? indicesPrimary
                 : indicesSecondary
@@ -240,7 +240,7 @@ function AppShield() {
           <Form.Label column sm="2">
             Constant
           </Form.Label>
-          <Col sm="10">
+          <Col sm="3">
             <Form.Control
               as="select"
               value={constant}
