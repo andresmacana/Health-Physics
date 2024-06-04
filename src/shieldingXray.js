@@ -110,10 +110,10 @@ function AppShield() {
     const B = 0.02 / K;
 
     const xpri =
-      (1 / alpha) *
-      gamma *
-      Math.log((1 / B) ** gamma + beta / alpha / (1 + beta / alpha));
+      (1 / (alpha * gamma)) *
+      Math.log(((1 / B) ** gamma + beta / alpha) / (1 + beta / alpha));
     const xpriWithConstant = Math.round((xpri + xpre[constant]) * 10) / 10;
+    const xpriMinusxpre = parseFloat(xpri - xpre[constant]).toFixed(2);
 
     /* const xpri =
       (1 / lead_alpha) *
@@ -125,9 +125,10 @@ function AppShield() {
 
     setResult({
       Kerma: parseFloat(K.toFixed(2)),
-      Transmission: parseFloat(B.toFixed(3)),
+      Transmission: parseFloat(B.toFixed(4)),
       xpri: parseFloat(xpri.toFixed(2)), // rounding to 1 decimal place
       xpriWithConstant: xpriWithConstant,
+      xpriMinusxpre: xpriMinusxpre,
     });
   };
 
@@ -139,7 +140,7 @@ function AppShield() {
       <Form>
         <Form.Group as={Row}>
           <Form.Label column sm="2">
-            Dp
+            Dose/patient
           </Form.Label>
           <Col sm="10">
             <Form.Control
@@ -153,7 +154,7 @@ function AppShield() {
 
         <Form.Group as={Row}>
           <Form.Label column sm="2">
-            d
+            distance
           </Form.Label>
           <Col sm="10">
             <Form.Control
@@ -167,7 +168,7 @@ function AppShield() {
 
         <Form.Group as={Row}>
           <Form.Label column sm="2">
-            Pat
+            Patients
           </Form.Label>
           <Col sm="10">
             <Form.Control
@@ -263,16 +264,19 @@ function AppShield() {
         <div className="mt-4">
           <h2>Results</h2>
           <p>
-            <strong>Kerma:</strong> {result.Kerma}
+            <strong>Kerma K mGy/week:</strong> {result.Kerma}
           </p>
           <p>
-            <strong>Transmission:</strong> {result.Transmission}
+            <strong>Transmission B:</strong> {result.Transmission}
           </p>
           <p>
-            <strong>xpri:</strong> {result.xpri} mm Pb
+            <strong>x_barrier:</strong> {result.xpri}
           </p>
           <p>
-            <strong>xpri with constant:</strong> {result.xpriWithConstant} mm Pb
+            <strong>x_barrier + x_pre:</strong> {result.xpriWithConstant}
+          </p>
+          <p>
+            <strong>x_barrier - x_pre:</strong> {result.xpriMinusxpre}
           </p>
         </div>
       )}
